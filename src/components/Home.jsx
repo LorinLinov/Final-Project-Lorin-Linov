@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 export default function Home() {
     return (
@@ -7,7 +8,7 @@ export default function Home() {
                 <h2>Welcome to Veggie Haven!</h2>
                 <p>Your ultimate source for 100% organic, freshly picked vegetables straight from the farm to your table.
                 </p>
-                <a href="catalog.html" className="btn">Explore Our Catalog</a>
+                <Link to="/catalog" className="btn">Explore Our Catalog</Link>
             </div>
 
             <div className="grid">
