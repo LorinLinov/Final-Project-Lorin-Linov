@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Edit() {
     return (
-        <div className="card" style="max-width: 600px; margin: 0 auto;">
+        <div className="card editCard">
             <h2 className="text-center">Edit Vegetable</h2>
             <form action="catalog.html">
                 <div className="form-group">

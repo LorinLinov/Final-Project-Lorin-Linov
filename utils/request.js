@@ -20,9 +20,10 @@ export default async function request(path = '/', method = 'GET', data = null) {
 
     const response = await fetch(`${baseUrl}${path}`, options)
 
-    if(!response.ok) {
+    if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    return response.json();
+    const text = await response.text();
+    return text ? JSON.parse(text) : null;
 }

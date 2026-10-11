@@ -59,11 +59,9 @@ footer {
     color: white;
     text-align: center;
     padding: 1rem;
-    margin-top: auto;
 }
 
 .card {
-    background: var(--card-bg);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     padding: 2rem;
@@ -151,6 +149,7 @@ footer {
 }
 
 .product-card {
+    min-height: fit-content;
     text-align: center;
     padding: 1.5rem;
 }
@@ -176,6 +175,45 @@ footer {
 
 .text-center {
     text-align: center;
+}
+.create{
+    max-width: 600px; 
+    margin: 0 auto;
+}
+
+.btnWidth {
+    width: 100%;
+}
+
+.detailsCard {
+    max-width: 800px; 
+    margin: 0 auto;
+}
+
+.productName {
+    margin-top: 0;
+}
+
+.detailsPrice {
+    font-size: 1.5rem; 
+    font-weight: bold; 
+    color: var(--primary-color);
+}
+
+.hrDetails {
+    border: 0; 
+    border-top: 1px solid #eee; 
+    margin: 1.5rem 0;
+}
+
+.detailsBtn {
+    margin-top: 2rem;
+}
+
+.detailsHeader {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start;
 }
 
 .hero {

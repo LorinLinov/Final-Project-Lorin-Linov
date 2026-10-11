@@ -1,31 +1,48 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
+import request from '../../utils/request.js';
+import {Link} from 'react-router';
 
 export default function Details() {
+
+    const id = useParams().id;
+    const [product, setProduct] = useState(null);
+
+    useEffect(() => {
+        request(`products?id=eq.${id}`)
+            .then(data => setProduct(data[0]));
+    }, [id]);
+
+    if (!product) {
+        return <div className="card">Product not found</div>;
+    }
+
     return (
-        <div className="card" style="max-width: 800px; margin: 0 auto;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div className="card detailsCard">
+            <div className="detailsHeader">
                 <div>
-                    <h2 style="margin-top: 0;">🍅 Red Tomatoes</h2>
-                    <p className="price" style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">$2.99 / kg</p>
+                    <h2 className="productName">{product.product_name}</h2>
+                    <p className="price detailsPrice" >${product.price.toFixed(2)} / kg</p>
                 </div>
-                <a href="edit.html" className="btn">Edit Product</a>
+                <Link to={`/edit/${product.id}`} className="btn">Edit Product</Link>
             </div>
 
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 1.5rem 0;" />
+            <hr className="hrDetails" />
 
-                <h3>Description</h3>
-                <p>Fresh, juicy, and perfect for your summer salads. Our red tomatoes are grown locally without any artificial pesticides. They are hand-picked at peak ripeness to ensure the best flavor and nutritional value.</p>
+            <h3>Description</h3>
+            <p>{product.description}</p>
 
-                <h3>Details</h3>
-                <ul>
-                    <li><strong>Category:</strong> Vegetables</li>
-                    <li><strong>Farm:</strong> Sunny Valley Farms</li>
-                    <li><strong>In Stock:</strong> Yes (45 kg available)</li>
-                </ul>
+            <h3>Details</h3>
+            <ul>
+                <li><strong>Category:</strong> {product.category}</li>
+                <li><strong>Farm:</strong> {product.farm}</li>
+                <li><strong>In Stock:</strong> Yes ({product.inStock} kg available)</li>
+            </ul>
 
-                <div style="margin-top: 2rem;">
-                    <a href="catalog.html" className="btn btn-secondary">&larr; Back to Catalog</a>
-                </div>
+            <div className="detailsBtn">
+                <Link to="/catalog" className="btn btn-secondary">&larr; Back to Catalog</Link>
+            </div>
         </div>
     );
 }

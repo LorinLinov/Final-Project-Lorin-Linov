@@ -2,6 +2,7 @@ import React from 'react';
 import CardElement from './cardElement.jsx';
 import { useState, useEffect } from 'react';
 import request from '../../utils/request.js';
+import { Link } from 'react-router';
 
 export default function Catalog() {
 
@@ -17,7 +18,7 @@ export default function Catalog() {
         <>
             <div className='catalogAdd'>
                 <h2>Vegetable Dashboard / Catalog</h2>
-                <a href="create.html" className="btn">+ Add New Vegetable</a>
+                <Link to="/create" className="btn">+ Add New Vegetable</Link>
             </div>
 
             <div className="grid">
