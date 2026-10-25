@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { create } from '../../api/products-api.js';
 
-// !
 const initialValues = {
     product_name: '',
     price: 0,
