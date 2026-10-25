@@ -2,26 +2,14 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { useState, useEffect } from 'react';
 import request from '../../../utils/request.js';
+
 // !
 export default function Edit() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
 
-    useEffect(() => {
-        request(`products?id=eq.${id}`, 'GET').then(data => {
-            setProduct(data[0]);
-        });
-    }, [id]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-        data.price = Number(data.price);
-
-        useEffect(async () => {
-            await request(`products?id=eq.${id}`, 'PATCH', data)
-        }, [id]);
+    const changeHandler=(e)=>{
+        
     }
 
     if (!product) {
