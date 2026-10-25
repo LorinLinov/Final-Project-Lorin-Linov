@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import request from '../../../utils/request.js';
 import { toast } from 'react-toastify';
 import { update } from '../../api/products-api.js';
-// !
+
 const initialValues = {
     product_name: '',
     price: 0,

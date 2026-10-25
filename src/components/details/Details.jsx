@@ -1,11 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import request from '../../../utils/request.js';
 import { Link } from 'react-router';
 import CommentList from '../comments/CommentList.jsx';
+import { remove } from '../../api/products-api.js';
+import { toast } from 'react-toastify';
 // !
 export default function Details() {
+    const navigate = useNavigate();
 
     const id = useParams().id;
     const [product, setProduct] = useState(null);
@@ -19,19 +22,22 @@ export default function Details() {
         return <div className="card">Product not found</div>;
     }
 
-    const onDelete = (e) => {
-        alert('Are you sure you want to delete this product?');
-        e.preventDefault();
-        
-        request(`products?id=eq.${id}`, 'DELETE')
-            .then(() => {
-                alert('Product deleted successfully');
-                window.location.href = '/catalog';
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Failed to delete product');
-            });
+    const onDelete = async () => {
+        const confirm = window.confirm('Are you sure you want to delete this product?');
+
+        if (!confirm) {
+            return;
+        }
+
+        try {
+            await remove(id)
+            toast.success('Product deleted successfully');
+            navigate('/catalog');
+        } catch (error) {
+            toast.error('Failed to delete product');
+        }
+
+
     };
 
     return (
@@ -59,7 +65,7 @@ export default function Details() {
                 <Link to="/catalog" className="btn btn-secondary">&larr; Back to Catalog</Link>
                 <div className="detailsBtnRight">
                     <Link to={`/edit/${product.id}`} className="btn">Edit Product</Link>
-                    <Link to={`/delete/${product.id}`} className="btn" onClick={onDelete}>Delete Product</Link>
+                    <button className="btn" onClick={onDelete}>Delete Product</button>
                 </div>
             </div>
             <CommentList />
