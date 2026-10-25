@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+// !
 export default function Header() {
     return (
         <header>
@@ -8,9 +9,9 @@ export default function Header() {
             <nav>
                 <Link to='/'>Home</Link>
                 <Link to="/catalog">Catalog</Link>
-                <a href="/create">Add Item</a>
-                <a href="/login">Login</a>
-                <a href="/register">Sign Up</a>
+                <Link to="/create">Add Item</Link>
+                <Link to="/login">Login</Link>
+                <Link to="/register">Sign Up</Link>
             </nav>
         </header>
     );

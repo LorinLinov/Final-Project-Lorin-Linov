@@ -1,12 +1,14 @@
-const baseUrl = 'https://tilvltlxdssiogxugkud.supabase.co/rest/v1/';
-const apiKey = 'sb_publishable_z3ijVbWjOnE23830OVdfFw_bLLwnn_T';
+const baseUrl = import.meta.env.VITE_dataAPI;
+const authUrl = import.meta.env.VITE_authAPIUrl;
 
-export default async function request(path = '/', method = 'GET', data = null) {
+async function baseRequest(url, path = '/', method = 'GET', data = null, opts = {}) {
 
     const options = {
         headers: {
-            'apiKey': apiKey,
+            ...opts.headers,
+            'apiKey': import.meta.env.VITE_apiKey,
         },
+        ...opts
     };
 
     if (method !== 'GET') {
@@ -18,7 +20,7 @@ export default async function request(path = '/', method = 'GET', data = null) {
         options.body = JSON.stringify(data);
     }
 
-    const response = await fetch(`${baseUrl}${path}`, options)
+    const response = await fetch(`${url}${path}`, options);
 
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -26,4 +28,12 @@ export default async function request(path = '/', method = 'GET', data = null) {
 
     const text = await response.text();
     return text ? JSON.parse(text) : null;
+}
+
+export default async function request(path = '/', method = 'GET', data = null, opts = {}) {
+    return await baseRequest(baseUrl, path, method, data, opts);
+}
+
+export const authRequest = async (path = '/', method = 'GET', data = null, opts = {}) => {
+    return await baseRequest(authUrl, path, method, data, opts);
 }

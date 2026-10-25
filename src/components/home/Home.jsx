@@ -1,7 +1,21 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
+import request from '../../../utils/request';
+import { useState, useEffect } from 'react';
+import CardElement from '../cardElement/CardElement';
 
+// !
 export default function Home() {
+
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        request('/products?order=created_at.desc&limit=3')
+            .then(data => setProducts(data))
+            .catch(err => console.error('Error fetching products:', err))
+    }, ([]))
+
+
     return (
         <>
             <div className="hero">
@@ -10,6 +24,15 @@ export default function Home() {
                 </p>
                 <Link to="/catalog" className="btn">Explore Our Catalog</Link>
             </div>
+
+            <section className="products-section">
+                <h2 className="section-title">Featured Products</h2>
+                <div className="products-grid">
+
+                {products.map(product => <CardElement product={product} />)}
+
+                </div>
+            </section>
 
             <div className="grid">
                 <div className="card text-center">

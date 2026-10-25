@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 export default function CardElement({ product }) {
     return (
@@ -6,10 +7,9 @@ export default function CardElement({ product }) {
             <img src={product.imageURL} alt={product.product_name} className="product-image" />
             <h3>{product.product_name}</h3>
             <p>{product.description}</p>
-            <p className="price">${product.price.toFixed(2)} / kg</p>
+            <p className="price">{product.price.toFixed(2)}€ / kg</p>
             <div className="product-actions">
-                <a href={`details/${product.id}`} className="btn btn-secondary">Details</a>
-                <a href={`edit/${product.id}`} className="btn">Edit</a>
+                <Link to={`/details/${product.id}`} className="btn btn-secondary">Details</Link>
             </div>
         </div>
     );
