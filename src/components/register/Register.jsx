@@ -7,14 +7,14 @@ export default function Register() {
     const { register } = useAuth();
 
     const registerAction = (formData) => {
-        const { username, email, password, confirm_password } = Object.fromEntries(formData);
+        const { email, password, confirm_password } = Object.fromEntries(formData);
 
         if (password !== confirm_password) {
             toast.error('Passwords don\'t match.')
             return;
         }
 
-        if (!username || !email || !password || !confirm_password) {
+        if (!email || !password || !confirm_password) {
             toast.error("All fields are required!")
         }
 
@@ -30,10 +30,6 @@ export default function Register() {
         <div className="card enter">
             <h2 className="text-center">Create an Account</h2>
             <form action={registerAction}>
-                <div className="form-group">
-                    <label htmlFor="username">Username</label>
-                    <input type="text" id="username" name='username' placeholder="veggie_lover" />
-                </div>
                 <div className="form-group">
                     <label htmlFor="email">Email Address</label>
                     <input type="email" id="email" name='email' placeholder="farmer@example.com" />
