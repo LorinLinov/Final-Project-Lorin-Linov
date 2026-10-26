@@ -6,12 +6,17 @@ import { Link } from 'react-router';
 import CommentList from '../comments/CommentList.jsx';
 import { remove } from '../../api/products-api.js';
 import { toast } from 'react-toastify';
+import useAuth from '../../hooks/useAuth.js';
 // !
 export default function Details() {
+    const { isAuthenticated, user } = useAuth();
+
     const navigate = useNavigate();
 
     const id = useParams().id;
     const [product, setProduct] = useState(null);
+
+    const isOwner = user && user?.id === product?.user_id;
 
     useEffect(() => {
         request(`products?id=eq.${id}`)
@@ -61,14 +66,21 @@ export default function Details() {
                     </ul>
                 </div>
             </div>
-            <div className="detailsBtn">
-                <Link to="/catalog" className="btn btn-secondary">&larr; Back to Catalog</Link>
-                <div className="detailsBtnRight">
-                    <Link to={`/edit/${product.id}`} className="btn">Edit Product</Link>
-                    <button className="btn" onClick={onDelete}>Delete Product</button>
+            {isAuthenticated ?
+                <div>
+                    {isOwner ? <div className="detailsBtn">
+                        <Link to="/catalog" className="btn btn-secondary">&larr; Back to Catalog</Link>
+                        <div className="detailsBtnRight">
+                            <Link to={`/edit/${product.id}`} className="btn">Edit Product</Link>
+                            <a className="btn" onClick={onDelete}>Delete Product</a>
+                        </div>
+                    </div> : <div></div>}
+
+                    <CommentList />
                 </div>
-            </div>
-            <CommentList />
+                :
+                <div></div>
+            }
         </div>
     );
 }

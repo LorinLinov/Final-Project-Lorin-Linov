@@ -1,15 +1,15 @@
 import React from 'react';
 import CardElement from '../cardElement/CardElement.jsx';
 import { useState, useEffect } from 'react';
-import request from '../../../utils/request.js';
 import { Link } from 'react-router';
+import { getAll } from '../../api/products-api.js';
 
 export default function Catalog() {
 
     const [products, setProducts] = useState([])
 
     useEffect(() => {
-        request('/products')
+        getAll('/products')
             .then(data => setProducts(data))
             .catch(err => console.error('Error fetching products:', err))
     }, []);

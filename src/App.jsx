@@ -11,28 +11,33 @@ import Login from './components/login/Login'
 import Register from './components/register/Register'
 import { Routes, Route } from 'react-router'
 import { ToastContainer } from 'react-toastify'
+import { AuthProvider } from './contexts/auth-context'
+import Logout from './components/logout/Logout'
 
 function App() {
 
 
   return (
     <>
+      <AuthProvider>
         <Header />
-  
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/catalog' element={<Catalog />} />
-            <Route path='/create' element={<Create />} />
-            <Route path='/details/:id' element={<Details />} />
-            <Route path='/edit/:id' element={<Edit />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='*' element={<Error />} />
-          </Routes>
 
-          <ToastContainer />
-       
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/catalog' element={<Catalog />} />
+          <Route path='/create' element={<Create />} />
+          <Route path='/details/:id' element={<Details />} />
+          <Route path='/edit/:id' element={<Edit />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/logout' element={<Logout />} />
+          <Route path='*' element={<Error />} />
+        </Routes>
+
+        <ToastContainer />
+
         <Footer />
+      </AuthProvider>
     </>
   )
 }

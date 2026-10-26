@@ -29,7 +29,7 @@ export default function Home() {
                 <h2 className="section-title">Featured Products</h2>
                 <div className="products-grid">
 
-                {products.map(product => <CardElement product={product} />)}
+                {products.map(product => <CardElement key={product.id} product={product} />)}
 
                 </div>
             </section>
