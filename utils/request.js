@@ -6,9 +6,8 @@ async function baseRequest(url, path = '/', method = 'GET', data = null, opts = 
     const options = {
         headers: {
             ...opts.headers,
-            ...getAuthHeader(),
-            'apiKey': import.meta.env.VITE_API_KEY,
-            
+            apiKey: import.meta.env.VITE_API_KEY,
+            ...getAuthHeader(), 
         },
         ...opts
     };

@@ -21,7 +21,7 @@ function App() {
     <>
       <AuthProvider>
         <Header />
-
+    
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/catalog' element={<Catalog />} />
@@ -33,7 +33,7 @@ function App() {
           <Route path='/logout' element={<Logout />} />
           <Route path='*' element={<Error />} />
         </Routes>
-
+    
         <ToastContainer />
 
         <Footer />

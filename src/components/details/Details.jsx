@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import request from '../../../utils/request.js';
@@ -7,16 +7,20 @@ import CommentList from '../comments/CommentList.jsx';
 import { remove } from '../../api/products-api.js';
 import { toast } from 'react-toastify';
 import useAuth from '../../hooks/useAuth.js';
+import { CommentProvider } from '../../contexts/comment-context.jsx';
+import CommentItem from '../comments/comment-item/CommentItem.jsx';
+
 // !
 export default function Details() {
     const { isAuthenticated, user } = useAuth();
-
     const navigate = useNavigate();
 
     const id = useParams().id;
+
     const [product, setProduct] = useState(null);
 
     const isOwner = user && user?.id === product?.user_id;
+
 
     useEffect(() => {
         request(`products?id=eq.${id}`)
@@ -46,41 +50,45 @@ export default function Details() {
     };
 
     return (
-        <div className="card detailsCard">
-            <div className="detailsHeader">
-                <img src={product.imageURL} alt={product.product_name} className="detailsImage" />
-                <div className="detailsInfo">
-                    <h2 className="productName">{product.product_name}</h2>
-                    <p className="price detailsPrice" >{product.price.toFixed(2)}€ / kg</p>
+        <CommentProvider>
+            <div className="card detailsCard">
+                <div className="detailsHeader">
+                    <img src={product.imageURL} alt={product.product_name} className="detailsImage" />
+                    <div className="detailsInfo">
+                        <h2 className="productName">{product.product_name}</h2>
+                        <p className="price detailsPrice" >{product.price.toFixed(2)}€ / kg</p>
 
-                    <hr className="hrDetails" />
+                        <hr className="hrDetails" />
 
-                    <h3>Description</h3>
-                    <p>{product.description}</p>
+                        <h3>Description</h3>
+                        <p>{product.description}</p>
 
-                    <h3>Details</h3>
-                    <ul type="none" className="detailsList">
-                        <li><strong>Category:</strong> {product.category}</li>
-                        <li><strong>Farm:</strong> {product.farm}</li>
-                        <li><strong>In Stock:</strong> Yes ({product.inStock} kg available)</li>
-                    </ul>
+                        <h3>Details</h3>
+                        <ul type="none" className="detailsList">
+                            <li><strong>Category:</strong> {product.category}</li>
+                            <li><strong>Farm:</strong> {product.farm}</li>
+                            <li><strong>In Stock:</strong> Yes ({product.inStock} kg available)</li>
+                        </ul>
+                    </div>
                 </div>
+                {isAuthenticated ?
+                    <div>
+                        {isOwner ? <div className="detailsBtn">
+                            <Link to="/catalog" className="btn btn-secondary">&larr; Back to Catalog</Link>
+                            <div className="detailsBtnRight">
+                                <Link to={`/edit/${product.id}`} className="btn">Edit Product</Link>
+                                <a className="btn" onClick={onDelete}>Delete Product</a>
+                            </div>
+                        </div> : <div></div>}
+
+                        <div className="comments-list">
+                            <CommentList product_id={id} isOwner={isOwner} />
+                        </div> 
+                    </div>
+                    :
+                    <div></div>
+                }
             </div>
-            {isAuthenticated ?
-                <div>
-                    {isOwner ? <div className="detailsBtn">
-                        <Link to="/catalog" className="btn btn-secondary">&larr; Back to Catalog</Link>
-                        <div className="detailsBtnRight">
-                            <Link to={`/edit/${product.id}`} className="btn">Edit Product</Link>
-                            <a className="btn" onClick={onDelete}>Delete Product</a>
-                        </div>
-                    </div> : <div></div>}
-
-                    <CommentList />
-                </div>
-                :
-                <div></div>
-            }
-        </div>
+        </CommentProvider>
     );
 }

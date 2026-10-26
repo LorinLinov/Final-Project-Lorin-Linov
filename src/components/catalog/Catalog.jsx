@@ -3,8 +3,10 @@ import CardElement from '../cardElement/CardElement.jsx';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { getAll } from '../../api/products-api.js';
+import useAuth from '../../hooks/useAuth.js';
 
 export default function Catalog() {
+    const {user}=useAuth();
 
     const [products, setProducts] = useState([])
 
@@ -18,7 +20,7 @@ export default function Catalog() {
         <>
             <div className='catalogAdd'>
                 <h2 style={{ marginLeft: '2rem' }}>Vegetable Dashboard / Catalog</h2>
-                <Link to="/create" className="btn">+ Add New Vegetable</Link>
+                {user ? <Link to="/create" className="btn">+ Add New Vegetable</Link> : <div></div>}
             </div>
 
             <div className="grid">
