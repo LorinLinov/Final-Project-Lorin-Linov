@@ -6,12 +6,12 @@ import { create } from '../../api/products-api.js';
 
 const initialValues = {
     product_name: '',
-    price: 0,
+    price: '',
     imageURL: '',
     description: '',
     category: '',
     farm: '',
-    inStock: 0
+    inStock: ''
 }
 
 export default function Create() {
@@ -20,15 +20,29 @@ export default function Create() {
     const [values, setValues] = useState(initialValues)
 
     const changeHadler = (e) => {
+        const { name, value } = e.target;
         setValues(state => ({
             ...state,
-            [e.target.name]: e.target.value
+            [name]: value
         }))
     }
 
+    const blockInvalidKeys = (e) => {
+        if (['-', '+', 'e', 'E'].includes(e.key)) {
+            e.preventDefault();
+        }
+    };
+
     const createAction = async () => {
+        if(!values.product_name || !values.price || !values.imageURL || !values.description || !values.category || !values.farm || !values.inStock){
+            return toast.error('All fields are required!')
+        }
         try {
-            await create(values)
+            await create({
+                ...values,
+                price: Number(values.price),
+                inStock: Number(values.inStock)
+            })
             toast.success('Product added succesfully!')
             navigate('/catalog')
         } catch (error) {
@@ -46,7 +60,7 @@ export default function Create() {
                 </div>
                 <div className="form-group">
                     <label htmlFor="price">Price per unit (€)</label>
-                    <input type="number" step="0.01" name="price" id="price" value={values.price} onChange={changeHadler} placeholder="e.g., 2.50" />
+                    <input type="number" step="0.01" min="0" name="price" id="price" value={values.price} onChange={changeHadler} onKeyDown={blockInvalidKeys} placeholder="e.g., 2.50" />
                 </div>
                 <div className="form-group">
                     <label htmlFor="imageURL">Image URL</label>
@@ -66,7 +80,7 @@ export default function Create() {
                 </div>
                 <div className="form-group">
                     <label htmlFor="inStock">In Stock (kg)</label>
-                    <input type="number" id="inStock" name="inStock" value={values.inStock} onChange={changeHadler} min="0" step="1" placeholder="e.g., 10" />
+                    <input type="number" id="inStock" name="inStock" value={values.inStock} onChange={changeHadler} onKeyDown={blockInvalidKeys} min="0" step="1" placeholder="e.g., 10" />
                 </div>
                 <div className="text-center">
                     <button type="submit" className="btn btnWidth">

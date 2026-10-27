@@ -26,7 +26,7 @@ export default function Home() {
             </div>
 
             <section className="products-section">
-                <h2 className="section-title">Featured Products</h2>
+                <h2 className="section-title">The newest products</h2>
                 <div className="products-grid">
 
                 {products.map(product => <CardElement key={product.id} product={product} />)}
@@ -34,6 +34,7 @@ export default function Home() {
                 </div>
             </section>
 
+        <h2 className="title">Why to choose Us</h2>
             <div className="grid">
                 <div className="card text-center">
                     <h3>🌱 Organic Certified</h3>

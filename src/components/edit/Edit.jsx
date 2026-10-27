@@ -16,7 +16,7 @@ const initialValues = {
 }
 
 export default function Edit() {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const { id } = useParams();
     const [product, setProduct] = useState(initialValues);
 
@@ -26,7 +26,23 @@ export default function Edit() {
         });
     }, [id]);
 
+    const blockInvalidKeys = (e) => {
+        if (['-', '+', 'e', 'E'].includes(e.key)) {
+            e.preventDefault();
+        }
+    };
+
+    const changeHadler = (e) => {
+        setProduct(state => ({
+            ...state,
+            [e.target.name]: e.target.value
+        }))
+    }
+
     const editAction = async () => {
+        if (!product.product_name || !product.price || !product.imageURL || !product.description || !product.category || !product.farm || !product.inStock) {
+            return toast.error('All fields are required!')
+        }
         try {
             await update(product, id)
             toast.success('Product was edited succesfully!')
@@ -34,13 +50,6 @@ export default function Edit() {
         } catch (error) {
             toast.error(error.message)
         }
-    }
-
-    const changeHadler = (e) => {
-        setProduct(state => ({
-            ...state,
-            [e.target.name]: e.target.value
-        }))
     }
 
 
@@ -58,7 +67,7 @@ export default function Edit() {
                 </div>
                 <div className="form-group">
                     <label htmlFor="price">Price per unit ($)</label>
-                    <input type="number" step="0.01" id="price" name='price' value={product.price} onChange={changeHadler} />
+                    <input type="number"  min="0" step="0.01" id="price" name='price' value={product.price} onKeyDown={blockInvalidKeys} onChange={changeHadler} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="imageUrl">Image URL</label>
@@ -78,7 +87,7 @@ export default function Edit() {
                 </div>
                 <div className="form-group">
                     <label htmlFor="inStock">In Stock (kg)</label>
-                    <input type="number" id="inStock" name="inStock" value={product.inStock} onChange={changeHadler} min="0" step="1" placeholder="e.g., 10" />
+                    <input type="number" id="inStock" name="inStock" value={product.inStock} onKeyDown={blockInvalidKeys} onChange={changeHadler} min="0" step="1" placeholder="e.g., 10" />
                 </div>
                 <div className="text-center">
                     <button type="submit" className="btn btnWidth" >Save Changes</button>

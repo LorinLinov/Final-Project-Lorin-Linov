@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Footer > matches the snapshot 1`] = `
+<div>
+  <footer>
+    <p>
+      © 2026 Veggie Haven. Fresh farm vegetables daily.
+    </p>
+  </footer>
+</div>
+`;
