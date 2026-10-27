@@ -42,7 +42,7 @@ Veggie Haven is a React single-page application about a list of vegetable and fr
 | | |
 |---|---|
 | **Live demo** | final-project-lorin-linov.lorin-linov.workers.dev |
-| **GitHub repository** | _add your repository URL here_ |
+| **GitHub repository** | https://github.com/LorinLinov/Final-Project-Lorin-Linov |
 
 ## 🛠 Technologies
 
